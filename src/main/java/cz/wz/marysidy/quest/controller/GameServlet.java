@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/game")
 public class GameServlet extends HttpServlet {
@@ -23,7 +24,15 @@ public class GameServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
         String stepId = (String) session.getAttribute("currentStepId");
+        if (stepId == null) {
+            resp.sendRedirect(req.getContextPath() + "/start");
+            return;
+        }
         Step step = gameService.getStepById(stepId);
+        List<String> history = (List<String>) session.getAttribute("history");
+
+        String playerName = (String) session.getAttribute("playerName");
+        Integer games = (Integer) session.getAttribute("gamesPlayed");
 
         resp.setContentType("text/html;charset=UTF-8");
 
@@ -44,6 +53,17 @@ public class GameServlet extends HttpServlet {
             html.append("<a href='").append(req.getContextPath()).append("/start'>Restart</a>");
         }
 
+        html.append("<hr>");
+        html.append("<p>Player: ").append(playerName).append("</p>");
+        html.append("<h4>History:</h4>");
+        html.append("<p>Games played: ").append(games).append("</p>");
+        html.append("<ol>");
+
+        for (String h : history) {
+            html.append("<li>").append(h).append("</li>");
+        }
+
+        html.append("</ol>");
         html.append("</body></html>");
         resp.getWriter().write(html.toString());
     }
@@ -56,6 +76,10 @@ public class GameServlet extends HttpServlet {
         int choiceIndex = Integer.parseInt(req.getParameter("choice"));
         String nextStepId = step.getOptions().get(choiceIndex).getNextStepId();
         session.setAttribute("currentStepId", nextStepId);
+
+        List<String> history = (List<String>) session.getAttribute("history");
+        history.add(nextStepId);
+
         resp.sendRedirect(req.getContextPath() + "/game");
     }
 }
