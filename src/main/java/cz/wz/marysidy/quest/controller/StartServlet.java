@@ -22,10 +22,11 @@ public class StartServlet extends HttpServlet {
                     <html>
                     <body>
                         <h2>Welcome back,  """ + name + """
-                        !</h2>
+                        ! Start new game?</h2>
                         <form method='post'>
                             <button type='submit'>Start New Game</button>
                         </form>
+                        <a href='home'>Back to menu</a>
                     </body>
                     </html>""");
         } else {
@@ -37,6 +38,7 @@ public class StartServlet extends HttpServlet {
                             Name: <input type='text' name='playerName'/>
                             <button type='submit'>Start</button>
                         </form>
+                        <a href='home'>Back to menu</a>
                     </body>
                     </html>""");
         }

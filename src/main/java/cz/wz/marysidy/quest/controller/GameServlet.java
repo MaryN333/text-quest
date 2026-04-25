@@ -64,6 +64,10 @@ public class GameServlet extends HttpServlet {
         }
 
         html.append("</ol>");
+        html.append("<hr>");
+        html.append("<a href='")
+                .append(req.getContextPath())
+                .append("/home'>Exit to menu</a>");
         html.append("</body></html>");
         resp.getWriter().write(html.toString());
     }
