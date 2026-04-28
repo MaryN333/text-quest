@@ -12,6 +12,7 @@ import java.util.List;
 
 @WebServlet("/start")
 public class StartServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
@@ -58,10 +59,8 @@ public class StartServlet extends HttpServlet {
         session.setAttribute("history", history);
 
         Integer games = (Integer) session.getAttribute("gamesPlayed");
-        if (games == null) {
-            games = 0;
-        }
-        session.setAttribute("gamesPlayed", games + 1);
+        session.setAttribute("gamesPlayed", (games == null ? 1 : games + 1));
+        session.setAttribute("gameFinished", false);
 
         resp.sendRedirect(req.getContextPath() + "/game");
     }

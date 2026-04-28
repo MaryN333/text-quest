@@ -23,6 +23,11 @@ public class HomeServlet extends HttpServlet {
             html.append("<p>Player: ").append(name).append("</p>");
         }
 
+        html.append("<form action='reset' method='post'>")
+                .append("<button type='submit'>New Player / Change Player</button>")
+                .append("</form>");
+
+
         html.append("<h3>Available quests:</h3>");
 
         // only one quest for now

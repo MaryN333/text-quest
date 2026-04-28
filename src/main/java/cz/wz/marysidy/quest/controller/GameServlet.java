@@ -29,10 +29,26 @@ public class GameServlet extends HttpServlet {
             return;
         }
         Step step = gameService.getStepById(stepId);
-        List<String> history = (List<String>) session.getAttribute("history");
 
+        Integer wins = (Integer) session.getAttribute("gamesWon");
+        Integer loses = (Integer) session.getAttribute("gamesLost");
+        Boolean finished = (Boolean) session.getAttribute("gameFinished");
+
+        if (step.getOptions().isEmpty() && (finished == null || !finished)) {
+            if ("win".equals(step.getId())) {
+                session.setAttribute("gamesWon", wins == null ? 1 : wins + 1);
+            } else if ("lose".equals(step.getId())) {
+                session.setAttribute("gamesLost", loses == null ? 1 : loses + 1);
+            }
+            session.setAttribute("gameFinished", true);
+        }
+
+        List<String> history = (List<String>) session.getAttribute("history");
         String playerName = (String) session.getAttribute("playerName");
         Integer games = (Integer) session.getAttribute("gamesPlayed");
+
+        wins = (Integer) session.getAttribute("gamesWon");
+        loses = (Integer) session.getAttribute("gamesLost");
 
         resp.setContentType("text/html;charset=UTF-8");
 
@@ -49,22 +65,29 @@ public class GameServlet extends HttpServlet {
                     .append("</form>");
         }
 
-        if (step.getOptions().isEmpty()) {
-            html.append("<a href='").append(req.getContextPath()).append("/start'>Restart</a>");
-        }
-
         html.append("<hr>");
         html.append("<p>Player: ").append(playerName).append("</p>");
-        html.append("<h4>History:</h4>");
+        html.append("<h4>Statistics:</h4>");
         html.append("<p>Games played: ").append(games).append("</p>");
+        html.append("<p>Wins: ").append(wins == null ? 0 : wins).append("</p>");
+        html.append("<p>Losses: ").append(loses == null ? 0 : loses).append("</p>");
+
+        html.append("<h4>History:</h4>");
         html.append("<ol>");
-
-        for (String h : history) {
-            html.append("<li>").append(h).append("</li>");
+        if (history != null) {
+            for (String h : history) {
+                html.append("<li>").append(h).append("</li>");
+            }
         }
-
         html.append("</ol>");
         html.append("<hr>");
+
+        if (step.getOptions().isEmpty()) {
+            html.append("<a href='")
+                    .append(req.getContextPath())
+                    .append("/start'>Restart</a><br>");
+        }
+
         html.append("<a href='")
                 .append(req.getContextPath())
                 .append("/home'>Exit to menu</a>");
@@ -79,6 +102,7 @@ public class GameServlet extends HttpServlet {
         Step step = gameService.getStepById(stepId);
         int choiceIndex = Integer.parseInt(req.getParameter("choice"));
         String nextStepId = step.getOptions().get(choiceIndex).getNextStepId();
+
         session.setAttribute("currentStepId", nextStepId);
 
         List<String> history = (List<String>) session.getAttribute("history");
