@@ -16,33 +16,11 @@ public class StartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        resp.setContentType("text/html;charset=UTF-8");
         if (session != null && session.getAttribute("playerName") != null) {
-            String name = (String) session.getAttribute("playerName");
-            resp.getWriter().write("""
-                    <html>
-                    <body>
-                        <h2>Welcome back,  """ + name + """
-                        ! Start new game?</h2>
-                        <form method='post'>
-                            <button type='submit'>Start New Game</button>
-                        </form>
-                        <a href='home'>Back to menu</a>
-                    </body>
-                    </html>""");
-        } else {
-            resp.getWriter().write("""
-                    <html>
-                    <body>
-                        <h2>Welcome to the Quest</h2>
-                        <form method='post'>
-                            Name: <input type='text' name='playerName'/>
-                            <button type='submit'>Start</button>
-                        </form>
-                        <a href='home'>Back to menu</a>
-                    </body>
-                    </html>""");
+            req.setAttribute("playerName", session.getAttribute("playerName"));
         }
+        req.getRequestDispatcher("/WEB-INF/views/start.jsp")
+                .forward(req, resp);
     }
 
     @Override

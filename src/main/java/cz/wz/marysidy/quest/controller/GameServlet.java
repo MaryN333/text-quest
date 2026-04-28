@@ -3,6 +3,7 @@ package cz.wz.marysidy.quest.controller;
 import cz.wz.marysidy.quest.model.Step;
 import cz.wz.marysidy.quest.service.GameService;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +22,7 @@ public class GameServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         String stepId = (String) session.getAttribute("currentStepId");
         Step step = gameService.getStepById(stepId);
@@ -43,56 +44,15 @@ public class GameServlet extends HttpServlet {
             session.setAttribute("gameFinished", true);
         }
 
-        List<String> history = (List<String>) session.getAttribute("history");
-        String playerName = (String) session.getAttribute("playerName");
-        Integer games = (Integer) session.getAttribute("gamesPlayed");
+        req.setAttribute("step", step);
+        req.setAttribute("history", session.getAttribute("history"));
+        req.setAttribute("playerName", session.getAttribute("playerName"));
+        req.setAttribute("gamesPlayed", session.getAttribute("gamesPlayed"));
+        req.setAttribute("wins", session.getAttribute("gamesWon"));
+        req.setAttribute("loses", session.getAttribute("gamesLost"));
 
-        wins = (Integer) session.getAttribute("gamesWon");
-        loses = (Integer) session.getAttribute("gamesLost");
-
-        resp.setContentType("text/html;charset=UTF-8");
-
-        StringBuilder html = new StringBuilder();
-        html.append("<html><body>");
-        html.append("<h3>").append(step.getText()).append("</h3>");
-
-        for (int i = 0; i < step.getOptions().size(); i++) {
-            html.append("<form method='post'>")
-                    .append("<input type='hidden' name='choice' value='").append(i).append("'/>")
-                    .append("<button type='submit'>")
-                    .append(step.getOptions().get(i).getText())
-                    .append("</button>")
-                    .append("</form>");
-        }
-
-        html.append("<hr>");
-        html.append("<p>Player: ").append(playerName).append("</p>");
-        html.append("<h4>Statistics:</h4>");
-        html.append("<p>Games played: ").append(games).append("</p>");
-        html.append("<p>Wins: ").append(wins == null ? 0 : wins).append("</p>");
-        html.append("<p>Losses: ").append(loses == null ? 0 : loses).append("</p>");
-
-        html.append("<h4>History:</h4>");
-        html.append("<ol>");
-        if (history != null) {
-            for (String h : history) {
-                html.append("<li>").append(h).append("</li>");
-            }
-        }
-        html.append("</ol>");
-        html.append("<hr>");
-
-        if (step.getOptions().isEmpty()) {
-            html.append("<a href='")
-                    .append(req.getContextPath())
-                    .append("/start'>Restart</a><br>");
-        }
-
-        html.append("<a href='")
-                .append(req.getContextPath())
-                .append("/home'>Exit to menu</a>");
-        html.append("</body></html>");
-        resp.getWriter().write(html.toString());
+        req.getRequestDispatcher("/WEB-INF/views/game.jsp")
+                .forward(req, resp);
     }
 
     @Override

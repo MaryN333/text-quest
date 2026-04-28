@@ -1,0 +1,31 @@
+{
+  "id": "quest2",
+  "steps": [
+    {
+      "id": "start",
+      "text": "You see a dark forest. Enter?",
+      "options": [
+        { "text": "Yes", "nextStepId": "forest" },
+        { "text": "No", "nextStepId": "lose" }
+      ]
+    },
+    {
+      "id": "forest",
+      "text": "A wolf appears. Fight?",
+      "options": [
+        { "text": "Yes", "nextStepId": "win" },
+        { "text": "No", "nextStepId": "lose" }
+      ]
+    },
+    {
+      "id": "win",
+      "text": "You survived the forest!",
+      "options": []
+    },
+    {
+      "id": "lose",
+      "text": "You ran away and got lost.",
+      "options": []
+    }
+  ]
+}
