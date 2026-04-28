@@ -1,0 +1,31 @@
+{
+  "id": "quest1",
+  "steps": [
+    {
+      "id": "start",
+      "text": "Do you accept the challenge?",
+      "options": [
+        { "text": "Yes", "nextStepId": "negotiation" },
+        { "text": "No", "nextStepId": "lose" }
+      ]
+    },
+    {
+      "id": "negotiation",
+      "text": "Do you go to negotiations?",
+      "options": [
+        { "text": "Yes", "nextStepId": "win" },
+        { "text": "No", "nextStepId": "lose" }
+      ]
+    },
+    {
+      "id": "win",
+      "text": "You won!",
+      "options": []
+    },
+    {
+      "id": "lose",
+      "text": "You lost!",
+      "options": []
+    }
+  ]
+}

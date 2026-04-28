@@ -24,11 +24,11 @@ public class GameServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
         String stepId = (String) session.getAttribute("currentStepId");
-        if (stepId == null) {
+        Step step = gameService.getStepById(stepId);
+        if (stepId == null || step == null) {
             resp.sendRedirect(req.getContextPath() + "/start");
             return;
         }
-        Step step = gameService.getStepById(stepId);
 
         Integer wins = (Integer) session.getAttribute("gamesWon");
         Integer loses = (Integer) session.getAttribute("gamesLost");
@@ -100,13 +100,20 @@ public class GameServlet extends HttpServlet {
         HttpSession session = req.getSession();
         String stepId = (String) session.getAttribute("currentStepId");
         Step step = gameService.getStepById(stepId);
+        if (stepId == null || step == null) {
+            resp.sendRedirect(req.getContextPath() + "/start");
+            return;
+        }
+
         int choiceIndex = Integer.parseInt(req.getParameter("choice"));
         String nextStepId = step.getOptions().get(choiceIndex).getNextStepId();
 
         session.setAttribute("currentStepId", nextStepId);
 
         List<String> history = (List<String>) session.getAttribute("history");
-        history.add(nextStepId);
+        if (history != null) {
+            history.add(nextStepId);
+        }
 
         resp.sendRedirect(req.getContextPath() + "/game");
     }
