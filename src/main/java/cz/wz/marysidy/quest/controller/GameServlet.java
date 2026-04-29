@@ -14,16 +14,12 @@ import java.util.List;
 
 @WebServlet("/game")
 public class GameServlet extends HttpServlet {
-    private GameService gameService;
-
-    @Override
-    public void init() {
-        this.gameService = new GameService();
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
+        String questId = (String) session.getAttribute("questId");
+        GameService gameService = new GameService(questId);
         String stepId = (String) session.getAttribute("currentStepId");
         Step step = gameService.getStepById(stepId);
         if (stepId == null || step == null) {
@@ -58,6 +54,8 @@ public class GameServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
+        String questId = (String) session.getAttribute("questId");
+        GameService gameService = new GameService(questId);
         String stepId = (String) session.getAttribute("currentStepId");
         Step step = gameService.getStepById(stepId);
         if (stepId == null || step == null) {

@@ -14,10 +14,14 @@ public class QuestRepository {
                     .getClassLoader()
                     .getResourceAsStream(questId + ".json");
 
+            if (is == null) {
+                throw new RuntimeException("Quest file not found: " + questId);
+            }
+
             return mapper.readValue(is, Quest.class);
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed to load quest", e);
+            throw new RuntimeException("Failed to load quest: " + questId, e);
         }
     }
 }

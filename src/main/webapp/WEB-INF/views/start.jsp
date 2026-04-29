@@ -7,6 +7,7 @@
     <c:when test="${not empty playerName}">
         <h2>Welcome back, ${playerName}! Start new game?</h2>
         <form method="post">
+            <input type="hidden" name="questId" value="${questId}"/>
             <button type="submit">Start New Game</button>
         </form>
     </c:when>
@@ -14,6 +15,7 @@
         <h2>Welcome to the Quest</h2>
         <form method="post">
             Name: <input type="text" name="playerName"/>
+            <input type="hidden" name="questId" value="${questId}"/>
             <button type="submit">Start</button>
         </form>
     </c:otherwise>

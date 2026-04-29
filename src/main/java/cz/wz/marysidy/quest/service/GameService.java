@@ -10,9 +10,9 @@ import java.util.Map;
 public class GameService {
     private final Map<String, Step> steps = new HashMap<>();
 
-    public GameService() {
+    public GameService(String questId) {
         QuestRepository repository = new QuestRepository();
-        Quest quest = repository.loadQuest("quest1");
+        Quest quest = repository.loadQuest(questId);
 
         for (Step step : quest.getSteps()) {
             steps.put(step.getId(), step);
@@ -21,10 +21,6 @@ public class GameService {
 
     public Step getStepById(String stepId) {
         return steps.get(stepId);
-    }
-
-    public Step getStartStep() {
-        return steps.get("start");
     }
 }
 

@@ -16,21 +16,26 @@ public class StartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession(false);
-        if (session != null && session.getAttribute("playerName") != null) {
-            req.setAttribute("playerName", session.getAttribute("playerName"));
-        }
-        req.getRequestDispatcher("/WEB-INF/views/start.jsp")
-                .forward(req, resp);
+        String questId = req.getParameter("questId");
+
+        req.setAttribute("playerName", session.getAttribute("playerName"));
+        req.setAttribute("questId", questId);
+
+        req.getRequestDispatcher("/WEB-INF/views/start.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String name = req.getParameter("playerName");
-
         HttpSession session = req.getSession();
-        if (name != null && !name.isBlank()) {
-            session.setAttribute("playerName", name);
-        }
+
+        startNewGame(session, req);
+        resp.sendRedirect(req.getContextPath() + "/game");
+    }
+
+    private void startNewGame(HttpSession session, HttpServletRequest req) {
+        String questId = req.getParameter("questId");
+
+        session.setAttribute("questId", questId);
         session.setAttribute("currentStepId", "start");
 
         List<String> history = new ArrayList<>(List.of("start"));
@@ -39,7 +44,5 @@ public class StartServlet extends HttpServlet {
         Integer games = (Integer) session.getAttribute("gamesPlayed");
         session.setAttribute("gamesPlayed", (games == null ? 1 : games + 1));
         session.setAttribute("gameFinished", false);
-
-        resp.sendRedirect(req.getContextPath() + "/game");
     }
 }

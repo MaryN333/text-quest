@@ -12,12 +12,18 @@ public class ResetServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String newName = req.getParameter("playerName");
         HttpSession session = req.getSession(false);
 
         if (session != null) {
-            session.invalidate();
+            session.invalidate();  // полный сброс
         }
 
-        resp.sendRedirect(req.getContextPath() + "/start");
+        if (newName != null && !newName.isBlank()) {
+            session = req.getSession();
+            session.setAttribute("playerName", newName);
+        }
+
+        resp.sendRedirect(req.getContextPath() + "/home");
     }
 }
