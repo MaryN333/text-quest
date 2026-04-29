@@ -22,10 +22,6 @@ public class GameServlet extends HttpServlet {
         GameService gameService = new GameService(questId);
         String stepId = (String) session.getAttribute("currentStepId");
         Step step = gameService.getStepById(stepId);
-        if (stepId == null || step == null) {
-            resp.sendRedirect(req.getContextPath() + "/start");
-            return;
-        }
 
         Integer wins = (Integer) session.getAttribute("gamesWon");
         Integer loses = (Integer) session.getAttribute("gamesLost");
@@ -58,11 +54,6 @@ public class GameServlet extends HttpServlet {
         GameService gameService = new GameService(questId);
         String stepId = (String) session.getAttribute("currentStepId");
         Step step = gameService.getStepById(stepId);
-        if (stepId == null || step == null) {
-            resp.sendRedirect(req.getContextPath() + "/start");
-            return;
-        }
-
         int choiceIndex = Integer.parseInt(req.getParameter("choice"));
         String nextStepId = step.getOptions().get(choiceIndex).getNextStepId();
 
