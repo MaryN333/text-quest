@@ -24,4 +24,13 @@ public class QuestRepositoryTest {
             repository.loadQuest("unknown");
         });
     }
+
+    @Test
+    void loadQuest_ShouldCacheSameQuest() {
+        QuestRepository repo = new QuestRepository();
+        Quest q1 = repo.loadQuest("quest1");
+        Quest q2 = repo.loadQuest("quest1");
+
+        assertSame(q1, q2);
+    }
 }
