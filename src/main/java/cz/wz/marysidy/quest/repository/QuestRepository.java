@@ -2,6 +2,8 @@ package cz.wz.marysidy.quest.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cz.wz.marysidy.quest.model.Quest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.util.Map;
@@ -10,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class QuestRepository {
     private static final Map<String, Quest> CACHE = new ConcurrentHashMap<>();
     private final ObjectMapper mapper = new ObjectMapper();
+    private static final Logger log = LoggerFactory.getLogger(QuestRepository.class);
 
     public Quest loadQuest(String questId) {
         return CACHE.computeIfAbsent(questId, this::loadFromFile);
@@ -17,6 +20,7 @@ public class QuestRepository {
 
     private Quest loadFromFile(String questId) {
         try {
+            log.info("Loading quest from file: {}", questId);
             InputStream is = getClass()
                     .getClassLoader()
                     .getResourceAsStream(questId + ".json");
@@ -26,6 +30,7 @@ public class QuestRepository {
             }
             return mapper.readValue(is, Quest.class);
         } catch (Exception e) {
+            log.error("Failed to load quest: {}", questId, e);
             throw new RuntimeException("Failed to load quest: " + questId, e);
         }
     }

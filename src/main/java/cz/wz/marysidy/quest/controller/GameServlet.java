@@ -2,6 +2,8 @@ package cz.wz.marysidy.quest.controller;
 
 import cz.wz.marysidy.quest.model.Step;
 import cz.wz.marysidy.quest.service.GameService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +16,7 @@ import java.util.List;
 
 @WebServlet("/game")
 public class GameServlet extends HttpServlet {
+    private static final Logger log = LoggerFactory.getLogger(GameServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -55,7 +58,12 @@ public class GameServlet extends HttpServlet {
         String stepId = (String) session.getAttribute("currentStepId");
         Step step = gameService.getStepById(stepId);
         int choiceIndex = Integer.parseInt(req.getParameter("choice"));
+
+        log.info("Player chose option {} at step {}", choiceIndex, stepId);
+
         String nextStepId = step.getOptions().get(choiceIndex).getNextStepId();
+
+        log.info("Transition: {} -> {}", stepId, nextStepId);
 
         session.setAttribute("currentStepId", nextStepId);
 

@@ -1,5 +1,8 @@
 package cz.wz.marysidy.quest.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +15,7 @@ import java.util.List;
 
 @WebServlet("/start")
 public class StartServlet extends HttpServlet {
+    private static final Logger log = LoggerFactory.getLogger(StartServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,6 +38,9 @@ public class StartServlet extends HttpServlet {
 
     private void startNewGame(HttpSession session, HttpServletRequest req) {
         String questId = req.getParameter("questId");
+
+        log.info("Starting new game. Player: {}, Quest: {}",
+                session.getAttribute("playerName"), questId);
 
         session.setAttribute("questId", questId);
         session.setAttribute("currentStepId", "start");
