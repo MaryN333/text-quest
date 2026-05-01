@@ -10,24 +10,36 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class QuestRepository {
+    private static final QuestRepository INSTANCE = new QuestRepository();
     private static final Map<String, Quest> CACHE = new ConcurrentHashMap<>();
     private final ObjectMapper mapper = new ObjectMapper();
     private static final Logger log = LoggerFactory.getLogger(QuestRepository.class);
 
+    private QuestRepository() {}
+
+    public static QuestRepository getInstance() {
+        return INSTANCE;
+    }
+
     public Quest loadQuest(String questId) {
+        if (CACHE.containsKey(questId)) {
+            log.debug("Quest loaded from cache: {}", questId);
+        }
+
         return CACHE.computeIfAbsent(questId, this::loadFromFile);
     }
 
     private Quest loadFromFile(String questId) {
-        try {
-            log.info("Loading quest from file: {}", questId);
-            InputStream is = getClass()
-                    .getClassLoader()
-                    .getResourceAsStream(questId + ".json");
+        log.info("Loading quest from file: {}", questId);
+
+        try (InputStream is = getClass()
+                .getClassLoader()
+                .getResourceAsStream(questId + ".json")) {
 
             if (is == null) {
                 throw new RuntimeException("Quest file not found: " + questId);
             }
+
             return mapper.readValue(is, Quest.class);
         } catch (Exception e) {
             log.error("Failed to load quest: {}", questId, e);

@@ -45,6 +45,7 @@ public class GameServlet extends HttpServlet {
         req.setAttribute("gamesPlayed", session.getAttribute("gamesPlayed"));
         req.setAttribute("wins", session.getAttribute("gamesWon"));
         req.setAttribute("loses", session.getAttribute("gamesLost"));
+        req.setAttribute("questId", session.getAttribute("questId"));
 
         req.getRequestDispatcher("/WEB-INF/views/game.jsp")
                 .forward(req, resp);

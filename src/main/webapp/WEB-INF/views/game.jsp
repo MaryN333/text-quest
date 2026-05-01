@@ -32,7 +32,7 @@
 <hr>
 
 <c:if test="${empty step.options}">
-    <a href="start">Restart</a><br/>
+    <a href="start?questId=${questId}">Restart</a><br/>
 </c:if>
 
 <a href="home">Exit to menu</a>

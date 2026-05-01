@@ -11,7 +11,7 @@ public class GameService {
     private final Map<String, Step> steps = new HashMap<>();
 
     public GameService(String questId) {
-        QuestRepository repository = new QuestRepository();
+        QuestRepository repository = QuestRepository.getInstance();
         Quest quest = repository.loadQuest(questId);
 
         for (Step step : quest.getSteps()) {
