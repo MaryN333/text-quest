@@ -22,22 +22,14 @@ public class GameServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         String questId = (String) session.getAttribute("questId");
-//        GameService gameService = new GameService(questId);
         GameService gameService = GameService.getInstance(questId);
         String stepId = (String) session.getAttribute("currentStepId");
         Step step = gameService.getStepById(stepId);
 
-        Integer wins = (Integer) session.getAttribute("gamesWon");
-        Integer loses = (Integer) session.getAttribute("gamesLost");
-        Boolean finished = (Boolean) session.getAttribute("gameFinished");
-
-        if (step.getOptions().isEmpty() && (finished == null || !finished)) {
-            if ("win".equals(step.getId())) {
-                session.setAttribute("gamesWon", wins == null ? 1 : wins + 1);
-            } else if ("lose".equals(step.getId())) {
-                session.setAttribute("gamesLost", loses == null ? 1 : loses + 1);
-            }
-            session.setAttribute("gameFinished", true);
+        if (step.getOptions().isEmpty()) {
+            session.setAttribute("currentStepId", step.getId());
+            resp.sendRedirect(req.getContextPath() + "/result");
+            return;
         }
 
         req.setAttribute("step", step);
@@ -56,7 +48,6 @@ public class GameServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
         String questId = (String) session.getAttribute("questId");
-//        GameService gameService = new GameService(questId);
         GameService gameService = GameService.getInstance(questId);
         String stepId = (String) session.getAttribute("currentStepId");
         Step step = gameService.getStepById(stepId);
