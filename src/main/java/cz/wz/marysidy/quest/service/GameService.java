@@ -6,9 +6,15 @@ import cz.wz.marysidy.quest.repository.QuestRepository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class GameService {
+    private static final Map<String, GameService> CACHE = new ConcurrentHashMap<>();
     private final Map<String, Step> steps = new HashMap<>();
+
+    public static GameService getInstance(String questId) {
+        return CACHE.computeIfAbsent(questId, GameService::new);
+    }
 
     public GameService(String questId) {
         QuestRepository repository = QuestRepository.getInstance();

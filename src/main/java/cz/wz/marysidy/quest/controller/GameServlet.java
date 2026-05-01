@@ -22,7 +22,8 @@ public class GameServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         String questId = (String) session.getAttribute("questId");
-        GameService gameService = new GameService(questId);
+//        GameService gameService = new GameService(questId);
+        GameService gameService = GameService.getInstance(questId);
         String stepId = (String) session.getAttribute("currentStepId");
         Step step = gameService.getStepById(stepId);
 
@@ -55,7 +56,8 @@ public class GameServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
         String questId = (String) session.getAttribute("questId");
-        GameService gameService = new GameService(questId);
+//        GameService gameService = new GameService(questId);
+        GameService gameService = GameService.getInstance(questId);
         String stepId = (String) session.getAttribute("currentStepId");
         Step step = gameService.getStepById(stepId);
         int choiceIndex = Integer.parseInt(req.getParameter("choice"));
