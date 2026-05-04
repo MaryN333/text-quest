@@ -6,14 +6,9 @@ public class Step {
     private String id;
     private String text;
     private List<Option> options;
+    private ResultType result;
 
     public Step() {}
-
-    public Step(String id, String text, List<Option> options) {
-        this.id = id;
-        this.text = text;
-        this.options = options;
-    }
 
     public String getId() {
         return id;
@@ -25,5 +20,8 @@ public class Step {
 
     public List<Option> getOptions() {
         return options;
+    }
+    public ResultType getResult() {
+        return result;
     }
 }

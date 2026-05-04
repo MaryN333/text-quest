@@ -1,5 +1,9 @@
 package cz.wz.marysidy.quest.controller;
 
+import cz.wz.marysidy.quest.model.ResultType;
+import cz.wz.marysidy.quest.model.Step;
+import cz.wz.marysidy.quest.service.GameService;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,16 +25,18 @@ public class ResultServlet extends HttpServlet {
             return;
         }
 
+        String questId = (String) session.getAttribute("questId");
         String stepId = (String) session.getAttribute("currentStepId");
-
+        GameService gameService = GameService.getInstance(questId);
+        Step step = gameService.getStepById(stepId);
         Integer wins = (Integer) session.getAttribute("gamesWon");
         Integer loses = (Integer) session.getAttribute("gamesLost");
         Boolean finished = (Boolean) session.getAttribute("gameFinished");
 
         if (finished == null || !finished) {
-            if ("win".equals(stepId)) {
+            if (step.getResult() == ResultType.WIN) {
                 session.setAttribute("gamesWon", wins == null ? 1 : wins + 1);
-            } else if ("lose".equals(stepId)) {
+            } else if (step.getResult() == ResultType.LOSE) {
                 session.setAttribute("gamesLost", loses == null ? 1 : loses + 1);
             }
             session.setAttribute("gameFinished", true);

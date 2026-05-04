@@ -20,11 +20,13 @@
     {
       "id": "win",
       "text": "You won!",
+      "result": "WIN",
       "options": []
     },
     {
       "id": "lose",
       "text": "You lost!",
+      "result": "LOSE",
       "options": []
     }
   ]

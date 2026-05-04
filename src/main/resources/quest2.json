@@ -20,11 +20,13 @@
     {
       "id": "win",
       "text": "You survived the forest!",
+      "result": "WIN",
       "options": []
     },
     {
       "id": "lose",
       "text": "You ran away and got lost.",
+      "result": "LOSE",
       "options": []
     }
   ]
