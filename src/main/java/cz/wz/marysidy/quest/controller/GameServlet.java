@@ -26,6 +26,11 @@ public class GameServlet extends HttpServlet {
         String stepId = (String) session.getAttribute("currentStepId");
         Step step = gameService.getStepById(stepId);
 
+        if (step == null) {
+            resp.sendRedirect(req.getContextPath() + "/home");
+            return;
+        }
+
         if (step.getOptions().isEmpty()) {
             session.setAttribute("currentStepId", step.getId());
             resp.sendRedirect(req.getContextPath() + "/result");

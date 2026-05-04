@@ -29,6 +29,12 @@ public class ResultServlet extends HttpServlet {
         String stepId = (String) session.getAttribute("currentStepId");
         GameService gameService = GameService.getInstance(questId);
         Step step = gameService.getStepById(stepId);
+
+        if (step == null) {
+            resp.sendRedirect(req.getContextPath() + "/home");
+            return;
+        }
+
         Integer wins = (Integer) session.getAttribute("gamesWon");
         Integer loses = (Integer) session.getAttribute("gamesLost");
         Boolean finished = (Boolean) session.getAttribute("gameFinished");
