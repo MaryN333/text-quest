@@ -4,24 +4,25 @@
 <html>
 <head>
     <title>Game Result</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
+<div class="card">
+    <h2>Game finished!</h2>
+    <h2>${step.text}</h2>
 
-<h2>Game finished!</h2>
-<h2>${step.text}</h2>
+    <p>Player: ${playerName}</p>
+    <p>Total games: ${gamesPlayed}</p>
+    <p class="win">Wins: ${wins}</p>
+    <p class="lose">Losses: ${loses}</p>
 
-<p>Player: ${playerName}</p>
-<p>Total games: ${gamesPlayed}</p>
-<p>Wins: ${wins}</p>
-<p>Losses: ${loses}</p>
+    <br/>
 
-<br/>
+    <a href="${pageContext.request.contextPath}/start?questId=${questId}">Play again</a>
 
-<a href="start?questId=${questId}">Play again</a>
+    <br/>
 
-<br/>
-
-<a href="${pageContext.request.contextPath}/home">Back to menu</a>
-
+    <a href="${pageContext.request.contextPath}/home">Back to menu</a>
+</div>
 </body>
 </html>
