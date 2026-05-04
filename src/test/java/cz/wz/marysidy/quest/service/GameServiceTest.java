@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GameServiceTest {
     @Test
     void getStepById_ReturnsCorrectStepById() {
-        GameService service = new GameService("quest1");
+        GameService service = new GameService("negotiation");
         Step step = service.getStepById("negotiation");
 
         assertNotNull(step);
@@ -18,7 +18,7 @@ public class GameServiceTest {
 
     @Test
     void getStepById_ReturnsNullForInvalidStep() {
-        GameService service = new GameService("quest1");
+        GameService service = new GameService("forest");
         Step step = service.getStepById("unknown");
 
         assertNull(step);
@@ -26,7 +26,7 @@ public class GameServiceTest {
 
     @Test
     void startStep_FollowCorrectTransition() {
-        GameService service = new GameService("quest1");
+        GameService service = new GameService("negotiation");
         Step start = service.getStepById("start");
         String nextStepId = start.getOptions().get(0).getNextStepId();
 
@@ -35,8 +35,8 @@ public class GameServiceTest {
     }
 
     @Test
-    void constructor_LoadSecondQuest() {
-        GameService service = new GameService("quest2");
+    void constructor_LoadForestQuest() {
+        GameService service = new GameService("forest");
         Step step = service.getStepById("start");
 
         assertNotNull(step);

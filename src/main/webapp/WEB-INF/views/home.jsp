@@ -24,14 +24,19 @@
 
     <h3>Choose your quest:</h3>
 
-    <form action="start" method="get" style="display:inline">
-            <input type="hidden" name="questId" value="quest1"/>
-            <button type="submit">Quest 1</button>
+    <form action="${pageContext.request.contextPath}/start" method="get" style="display:inline">
+        <input type="hidden" name="questId" value="prague-night"/>
+        <button type="submit">Play Prague Night</button>
     </form>
 
-    <form action="start" method="get" style="display:inline">
-        <input type="hidden" name="questId" value="quest2"/>
-        <button type="submit">Quest 2</button>
+    <form action="${pageContext.request.contextPath}/start" method="get" style="display:inline">
+        <input type="hidden" name="questId" value="negotiation"/>
+        <button type="submit">Play Negotiation Quest</button>
+    </form>
+
+    <form action="${pageContext.request.contextPath}/start" method="get" style="display:inline">
+        <input type="hidden" name="questId" value="forest"/>
+        <button type="submit">Play Forest Quest</button>
     </form>
 
     <hr/>

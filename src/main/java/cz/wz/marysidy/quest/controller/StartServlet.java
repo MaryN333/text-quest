@@ -22,7 +22,10 @@ public class StartServlet extends HttpServlet {
         HttpSession session = req.getSession(false);
         String questId = req.getParameter("questId");
 
-        req.setAttribute("playerName", session.getAttribute("playerName"));
+        if (session != null) {
+            req.setAttribute("playerName", session.getAttribute("playerName"));
+        }
+
         req.setAttribute("questId", questId);
 
         req.getRequestDispatcher("/WEB-INF/views/start.jsp").forward(req, resp);

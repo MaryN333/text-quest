@@ -31,7 +31,7 @@ public class GameServlet extends HttpServlet {
             return;
         }
 
-        if (step.getOptions().isEmpty()) {
+        if (step.getOptions() == null || step.getOptions().isEmpty()) {
             session.setAttribute("currentStepId", step.getId());
             resp.sendRedirect(req.getContextPath() + "/result");
             return;

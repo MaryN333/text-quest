@@ -48,6 +48,7 @@ public class ResultServlet extends HttpServlet {
             session.setAttribute("gameFinished", true);
         }
 
+        req.setAttribute("step", step);
         req.setAttribute("playerName", session.getAttribute("playerName"));
         req.setAttribute("gamesPlayed", session.getAttribute("gamesPlayed"));
         req.setAttribute("wins", session.getAttribute("gamesWon"));

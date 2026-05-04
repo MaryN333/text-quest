@@ -32,10 +32,10 @@
 <hr>
 
 <c:if test="${empty step.options}">
-    <a href="start?questId=${questId}">Restart</a><br/>
+    <a href="${pageContext.request.contextPath}/start?questId=${questId}">Restart</a><br/>
 </c:if>
 
-<a href="home">Exit to menu</a>
+<a href="${pageContext.request.contextPath}/home">Exit to menu</a>
 
 </body>
 </html>

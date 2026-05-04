@@ -74,7 +74,7 @@ class GameFilterTest {
 
         when(req.getSession(false)).thenReturn(session);
         when(session.getAttribute("playerName")).thenReturn("John");
-        when(session.getAttribute("questId")).thenReturn("quest1");
+        when(session.getAttribute("questId")).thenReturn("forest");
         when(session.getAttribute("currentStepId")).thenReturn("start");
 
         filter.doFilter(req, resp, chain);

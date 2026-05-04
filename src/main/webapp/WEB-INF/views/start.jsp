@@ -21,7 +21,7 @@
     </c:otherwise>
 </c:choose>
 
-<a href="home">Back to menu</a>
+<a href="${pageContext.request.contextPath}/home">Back to menu</a>
 
 </body>
 </html>

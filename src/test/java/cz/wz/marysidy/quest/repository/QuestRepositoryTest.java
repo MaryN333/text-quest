@@ -8,18 +8,16 @@ import static org.junit.jupiter.api.Assertions.*;
 public class QuestRepositoryTest {
     @Test
     void loadQuest_ReturnsQuestFromJson() {
-//        QuestRepository repository = new QuestRepository();
         QuestRepository repository = QuestRepository.getInstance();
-        Quest quest = repository.loadQuest("quest1");
+        Quest quest = repository.loadQuest("prague-night");
 
         assertNotNull(quest);
-        assertEquals("quest1", quest.getId());
+        assertEquals("prague-night", quest.getId());
         assertFalse(quest.getSteps().isEmpty());
     }
 
     @Test
     void loadQuest_ThrowExceptionForMissingFile() {
-//        QuestRepository repository = new QuestRepository();
         QuestRepository repository = QuestRepository.getInstance();
 
         assertThrows(RuntimeException.class, () -> {
@@ -29,10 +27,9 @@ public class QuestRepositoryTest {
 
     @Test
     void loadQuest_ShouldCacheSameQuest() {
-//        QuestRepository repo = new QuestRepository();
         QuestRepository repo = QuestRepository.getInstance();
-        Quest q1 = repo.loadQuest("quest1");
-        Quest q2 = repo.loadQuest("quest1");
+        Quest q1 = repo.loadQuest("forest");
+        Quest q2 = repo.loadQuest("forest");
 
         assertSame(q1, q2);
     }
