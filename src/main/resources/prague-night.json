@@ -1,0 +1,83 @@
+{
+  "id": "prague-night",
+  "steps": [
+    {
+      "id": "start",
+      "text": "You are lost in Prague at night. Your phone is dead. What will you do?",
+      "options": [
+        { "text": "Walk into a dark alley", "nextStepId": "alley" },
+        { "text": "Stay where you are", "nextStepId": "wait" },
+        { "text": "Ask a stranger for help", "nextStepId": "stranger" }
+      ]
+    },
+    {
+      "id": "alley",
+      "text": "The alley is quiet... too quiet. You see a shady figure.",
+      "options": [
+        { "text": "Approach the figure", "nextStepId": "lose_pickpocket" },
+        { "text": "Run away", "nextStepId": "escape" }
+      ]
+    },
+    {
+      "id": "escape",
+      "text": "You run and find a small bar with lights on.",
+      "options": [
+        { "text": "Go inside", "nextStepId": "win_bar" },
+        { "text": "Keep running", "nextStepId": "lose_exhausted" }
+      ]
+    },
+    {
+      "id": "wait",
+      "text": "You wait. After a while, police patrol arrives.",
+      "options": [
+        { "text": "Ask them for help", "nextStepId": "win_police" }
+      ]
+    },
+    {
+      "id": "stranger",
+      "text": "A stranger smiles. Can you trust them?",
+      "options": [
+        { "text": "Trust them", "nextStepId": "win_guide" },
+        { "text": "Refuse and walk away", "nextStepId": "lose_lost" }
+      ]
+    },
+
+    {
+      "id": "win_bar",
+      "text": "You are safe in the bar. The bartender helps you call a taxi. You won!",
+      "result": "WIN",
+      "options": []
+    },
+    {
+      "id": "win_police",
+      "text": "Police help you get back to your hotel. You won!",
+      "result": "WIN",
+      "options": []
+    },
+    {
+      "id": "win_guide",
+      "text": "The stranger was kind and shows you the way. You won!",
+      "result": "WIN",
+      "options": []
+    },
+
+    {
+      "id": "lose_pickpocket",
+      "text": "The figure steals your wallet. You are stuck. You lost!",
+      "result": "LOSE",
+      "options": []
+    },
+    {
+      "id": "lose_exhausted",
+      "text": "You get lost and exhausted. You lost!",
+      "result": "LOSE",
+      "options": []
+    },
+    {
+      "id": "lose_lost",
+      "text": "You wander aimlessly all night. You lost!",
+      "result": "LOSE",
+      "options": []
+    }
+  ]
+}
